@@ -184,55 +184,13 @@ export default function BirthdayFlow() {
 
   function flipPage(nextDirection: number) {
     setDirection(nextDirection);
-    </motion.div>
-  );
-}
-
-export default function BirthdayFlow() {
-  const [scene, setScene] = useState<Scene>("countdown");
-  const [count, setCount] = useState(3);
-  const [greetingStep, setGreetingStep] = useState(0);
-  const [pageIndex, setPageIndex] = useState(0);
-  const [direction, setDirection] = useState(1);
-
-  useEffect(() => {
-    const timers = [
-      window.setTimeout(() => setCount(2), 1500),
-      window.setTimeout(() => setCount(1), 3000),
-      window.setTimeout(() => setScene("greeting"), 4500),
-    ];
-
-    return () => timers.forEach((timer) => window.clearTimeout(timer));
-  }, []);
-
-  useEffect(() => {
-    if (scene !== "greeting") return;
-
-    const timers = [
-      window.setTimeout(() => setGreetingStep(1), 150),
-      window.setTimeout(() => setGreetingStep(2), 850),
-      window.setTimeout(() => setGreetingStep(3), 1550),
-      window.setTimeout(() => setScene("gif"), 3600),
-    ];
-
-    return () => timers.forEach((timer) => window.clearTimeout(timer));
-  }, [scene]);
-
-  function openBook() {
-    setPageIndex(0);
-    setDirection(1);
-    setScene("book");
-  }
-
-  function flipPage(nextDirection: number) {
-    setDirection(nextDirection);
     setPageIndex((current) =>
       Math.max(0, Math.min(pages.length - 1, current + nextDirection)),
     );
   }
 
   return (
-    <div className="relative z-10 min-h-screen overflow-x-hidden">
+    <div className="relative z-10 min-h-screen overflow-hidden">
       <AnimatePresence mode="wait">
         {scene === "countdown" ? (
           <motion.section
@@ -355,9 +313,9 @@ export default function BirthdayFlow() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="flex min-h-[100dvh] flex-col px-4 py-8"
+            className="flex min-h-screen items-center justify-center px-4 py-8"
           >
-            <div className="my-auto mx-auto w-full max-w-4xl">
+            <div className="w-full max-w-4xl">
               <div className="mb-6 text-center">
                 <h2 className="font-serif text-4xl italic text-[#b16f90] md:text-5xl">
                   Happy Birthday Test
@@ -406,7 +364,7 @@ export default function BirthdayFlow() {
             key="final"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="relative flex min-h-[100dvh] flex-col items-center px-6 py-12"
+            className="relative flex min-h-screen flex-col items-center px-4 py-8 md:px-6 md:py-16"
           >
             {confettiBits.map((bit) => (
               <motion.span
@@ -449,8 +407,8 @@ export default function BirthdayFlow() {
               >
                 <div className="relative h-full w-full overflow-hidden rounded-full border border-[#f2d7e2] bg-white">
                   <Image
-                    src="https://media.tenor.com/bh9MAiCpL6wAAAAj/birthday-cake.gif"
-                    alt="Birthday cake gif"
+                    src="https://media.tenor.com/7p_2X8-mD_AAAAAj/peach-goma.gif"
+                    alt="Cute peach goma gif"
                     fill
                     unoptimized
                     className="object-cover"
@@ -484,68 +442,88 @@ export default function BirthdayFlow() {
             <div className="absolute bottom-[18%] right-[16%] h-20 w-20 rounded-full bg-[#dceeff]/45 blur-3xl" />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.26),transparent_45%)]" />
 
-            <div className="relative my-auto w-full max-w-5xl">
-              <div className="relative overflow-hidden rounded-[40px] border border-white/70 bg-[linear-gradient(135deg,rgba(255,255,255,0.72),rgba(255,245,249,0.88),rgba(246,241,255,0.82))] px-5 py-8 shadow-[0_28px_70px_rgba(143,92,118,0.12)] backdrop-blur-md sm:px-8 sm:py-10 md:px-10 md:py-12">
+            <div className="relative z-10 w-full max-w-5xl my-auto">
+              <div className="relative rounded-[40px] border border-white/70 bg-[linear-gradient(135deg,rgba(255,255,255,0.72),rgba(255,245,249,0.88),rgba(246,241,255,0.82))] px-5 py-10 shadow-[0_28px_70px_rgba(143,92,118,0.12)] backdrop-blur-md sm:px-8 sm:py-12 md:px-10">
                 <div className="absolute -left-14 top-12 h-28 w-28 rounded-full bg-[#ffd8e8]/50 blur-3xl" />
                 <div className="absolute -right-10 bottom-12 h-32 w-32 rounded-full bg-[#dceeff]/45 blur-3xl" />
 
-                <div className="relative flex flex-col items-center text-center">
-                  <span className="rounded-full border border-[#efcddd] bg-white/76 px-4 py-2 text-[10px] uppercase tracking-[0.32em] text-[#b57a96] shadow-[0_10px_22px_rgba(143,92,118,0.08)]">
+                <div className="relative flex flex-col items-center text-center px-2">
+                  <motion.span 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="rounded-full border border-[#efcddd] bg-white/76 px-4 py-2 text-[10px] uppercase tracking-[0.32em] text-[#b57a96] shadow-[0_10px_22px_rgba(143,92,118,0.08)]"
+                  >
                     Birthday Keepsake
-                  </span>
-                  <h2 className="mt-4 font-serif text-[2.4rem] italic leading-none text-[#af6f8f] sm:text-[3.2rem] md:text-[4.4rem]">
-                    Happy Birthday
-                  </h2>
-                  <p className="mt-3 max-w-md text-sm leading-6 text-[#8d7380] sm:text-base">
+                  </motion.span>
+                  <motion.h2 
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="mt-6 font-serif text-[2.4rem] italic leading-none tracking-tight text-[#af6f8f] sm:text-[3.6rem] md:text-[5.5rem]"
+                  >
+                    <span className="bg-gradient-to-r from-[#af6f8f] via-[#d487aa] to-[#af6f8f] bg-clip-text text-transparent">
+                      Happy Birthday
+                    </span>
+                  </motion.h2>
+                  <motion.p 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.2 }}
+                    className="mt-5 max-w-xs text-[12px] leading-relaxed text-[#8d7380] sm:max-w-sm sm:text-base"
+                  >
                     A soft little bouquet, a dancing wish, and a page made just for your happiest day.
-                  </p>
+                  </motion.p>
                 </div>
 
-                <div className="relative mt-10 flex min-h-[420px] items-center justify-center md:min-h-[480px]">
+                <div className="relative mt-8 flex flex-col items-center justify-center gap-12 md:mt-16 md:flex-row md:gap-0">
                   <motion.div
-                    animate={{ rotate: [-2, 2, -2], y: [0, -8, 0] }}
-                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute left-1/2 top-[58%] z-10 h-[220px] w-[220px] -translate-x-[82%] -translate-y-1/2 sm:h-[280px] sm:w-[280px] sm:-translate-x-[92%] md:left-[26%] md:top-1/2 md:h-[360px] md:w-[360px] md:-translate-x-1/2"
+                    animate={{ rotate: [-1, 1, -1], y: [0, -10, 0] }}
+                    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                    className="relative z-10 h-[160px] w-[160px] drop-shadow-[0_20px_40px_rgba(155,101,128,0.18)] sm:h-[220px] sm:w-[220px] md:h-[380px] md:w-[380px] md:-mr-12"
                   >
-                    <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.78),rgba(255,235,244,0.36),transparent_72%)] blur-2xl" />
+                    <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.85),rgba(255,235,244,0.4),transparent_72%)] blur-3xl" />
                     <Image
                       src="/bouquet.png"
                       alt="Flower bouquet"
                       fill
-                      className="object-contain drop-shadow-[0_22px_40px_rgba(155,101,128,0.20)]"
+                      className="object-contain"
                     />
                   </motion.div>
 
                   <motion.div
-                    initial={{ opacity: 0, y: 20, rotate: -4 }}
-                    animate={{ opacity: 1, y: 0, rotate: -4 }}
-                    transition={{ delay: 0.15, duration: 0.55 }}
-                    className="relative z-20 ml-auto w-[78%] max-w-[280px] sm:max-w-[330px] md:mr-4 md:w-full md:max-w-[380px]"
+                    initial={{ opacity: 0, y: 30, rotate: 2 }}
+                    animate={{ opacity: 1, y: 0, rotate: -2 }}
+                    transition={{ delay: 0.35, duration: 0.8 }}
+                    className="relative z-20 w-[92%] max-w-[320px] sm:max-w-[360px] md:w-full md:max-w-[400px]"
                   >
-                    <div className="relative overflow-hidden rounded-[32px] border border-[#ecd7e0] bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(255,246,250,0.94))] p-3 shadow-[0_26px_50px_rgba(143,92,118,0.16)] sm:p-4">
-                      <div className="absolute right-4 top-4 rounded-full border border-[#f1d6e1] bg-white/80 px-3 py-1 text-[10px] uppercase tracking-[0.24em] text-[#ba7896]">
-                        for you
+                    <div className="relative overflow-hidden rounded-[32px] border border-[#ecd7e0] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(255,246,250,0.98))] p-3 shadow-[0_32px_64px_rgba(143,92,118,0.18)] sm:p-4">
+                      <div className="absolute right-5 top-5 rounded-full border border-[#f1d6e1] bg-white/90 px-3 py-1 text-[10px] uppercase tracking-[0.24em] text-[#ba7896]">
+                        page final
                       </div>
-                      <div className="mb-4 overflow-hidden rounded-[24px] border border-[#edd3dd] bg-white/78 p-3">
+                      <div className="mb-5 overflow-hidden rounded-[24px] border border-[#edd3dd] bg-white/78 p-3 shadow-inner">
                         <div className="relative aspect-[4/5] overflow-hidden rounded-[18px] border-2 border-dashed border-[#e5bfd0] bg-[linear-gradient(180deg,#fffdfd,#fff7fa)]">
                           <Image
                             src={pages[3].src}
                             alt={pages[3].alt}
                             fill
                             unoptimized
-                            sizes="(max-width: 768px) 70vw, 380px"
+                            sizes="(max-width: 768px) 80vw, 400px"
                             className="object-contain p-4"
                           />
-                          <div className="absolute inset-x-0 bottom-0 h-20 bg-[linear-gradient(180deg,transparent,rgba(255,247,250,0.92))]" />
+                          <div className="absolute inset-x-0 bottom-0 h-24 bg-[linear-gradient(180deg,transparent,rgba(255,247,250,0.95))]" />
                         </div>
                       </div>
-                      <div className="text-center">
-                        <p className="font-serif text-3xl italic text-[#b16f90] sm:text-[2.5rem]">
+                      <div className="pb-2 text-center">
+                        <p className="font-serif text-3xl italic text-[#b16f90] sm:text-[2.8rem]">
                           Keep smiling
                         </p>
                         <p className="mt-2 text-sm leading-6 text-[#8d7380]">
                           Wishing you a lovely day filled with flowers, laughter, and sweet little surprises.
                         </p>
+                      </div>
+                      <div className="absolute -bottom-4 -right-4 h-16 w-16 rotate-12 opacity-40">
+                        <svg viewBox="0 0 100 100" className="fill-[#f6a6b2]">
+                          <path d="M50 0 C60 30 100 40 100 50 C100 60 60 70 50 100 C40 70 0 60 0 50 C0 40 40 30 50 0" />
+                        </svg>
                       </div>
                     </div>
                   </motion.div>
