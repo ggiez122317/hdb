@@ -7,10 +7,34 @@ import { useEffect, useState } from "react";
 type Scene = "countdown" | "greeting" | "gif" | "book" | "final";
 
 const pages = [
-  { id: 1, caption: "Photo placeholder 1" },
-  { id: 2, caption: "Photo placeholder 2" },
-  { id: 3, caption: "Photo placeholder 3" },
-  { id: 4, caption: "Photo placeholder 4" },
+  {
+    id: 1,
+    src: "https://media.tenor.com/l2QU5JIn6q0AAAAi/happy-birthday.gif",
+    alt: "Happy birthday sticker gif",
+    badge: "Birthday Wish",
+    caption: "A bright little birthday spark to open the card.",
+  },
+  {
+    id: 2,
+    src: "https://www.funimada.com/assets/images/cards/big/bday-501.gif",
+    alt: "Birthday greeting card gif",
+    badge: "Sweet Surprise",
+    caption: "A warm birthday card moment filled with celebration.",
+  },
+  {
+    id: 3,
+    src: "https://media.tenor.com/qeXZqARw9i8AAAAm/happy-birthday-happybirthday.webp",
+    alt: "Happy birthday celebration gif",
+    badge: "Party Time",
+    caption: "More birthday energy for the next page of the story.",
+  },
+  {
+    id: 4,
+    src: "https://media.tenor.com/8_1QySrL5KUAAAAM/happy-dance-birthday.gif",
+    alt: "Happy birthday dancing gif",
+    badge: "Dance Break",
+    caption: "Ending the flipbook with a joyful birthday dance.",
+  },
 ];
 
 const confettiBits = Array.from({ length: 24 }, (_, index) => ({
@@ -85,29 +109,26 @@ function BookCard({
         <div className="mt-5 flex flex-1 flex-col gap-5">
           <div className="relative overflow-hidden rounded-[24px] border-2 border-dashed border-[#e5bfd0] bg-[linear-gradient(180deg,#fffafc,#fef0f5)] p-3 md:p-4">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.85),transparent_40%)]" />
-            <div className="relative mx-auto grid max-w-[720px] grid-cols-2 gap-2 md:gap-3">
-              <div className="overflow-hidden rounded-[18px] border border-white/80 bg-[linear-gradient(180deg,#fff7fb,#fdf0f6)] p-2 shadow-[0_10px_22px_rgba(193,140,167,0.08)]">
-                <div className="flex aspect-[4/5] items-center justify-center rounded-[14px] border border-dashed border-[#e8c6d5] bg-white/70">
-                  <div className="text-center">
-                    <p className="text-[10px] uppercase tracking-[0.28em] text-[#c48aa6]">
-                      photo
-                    </p>
-                    <p className="mt-2 font-serif text-xl italic text-[#9e6784] sm:text-2xl md:text-3xl">
-                      Left
-                    </p>
+            <div className="relative mx-auto max-w-[720px]">
+              <div className="overflow-hidden rounded-[20px] border border-white/85 bg-[linear-gradient(180deg,#fff7fb,#fdf0f6)] p-2.5 shadow-[0_12px_28px_rgba(193,140,167,0.10)] md:rounded-[24px] md:p-3">
+                <div className="relative aspect-[5/4] overflow-hidden rounded-[16px] border border-dashed border-[#e8c6d5] bg-[linear-gradient(180deg,#fffefd,#fff6fa)] md:aspect-[16/10] md:rounded-[18px]">
+                  <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between gap-3 p-3 md:p-4">
+                    <span className="rounded-full border border-white/75 bg-white/78 px-3 py-1 text-[10px] uppercase tracking-[0.24em] text-[#ba7896] backdrop-blur-sm">
+                      {page.badge}
+                    </span>
+                    <span className="rounded-full border border-[#f1d6e1] bg-[#fff7fb]/88 px-3 py-1 text-[10px] uppercase tracking-[0.24em] text-[#ba7896]">
+                      page {page.id}
+                    </span>
                   </div>
-                </div>
-              </div>
-              <div className="overflow-hidden rounded-[18px] border border-white/80 bg-[linear-gradient(180deg,#fff7fb,#fdf0f6)] p-2 shadow-[0_10px_22px_rgba(193,140,167,0.08)]">
-                <div className="flex aspect-[4/5] items-center justify-center rounded-[14px] border border-dashed border-[#e8c6d5] bg-white/70">
-                  <div className="text-center">
-                    <p className="text-[10px] uppercase tracking-[0.28em] text-[#c48aa6]">
-                      photo
-                    </p>
-                    <p className="mt-2 font-serif text-xl italic text-[#9e6784] sm:text-2xl md:text-3xl">
-                      Right
-                    </p>
-                  </div>
+                  <Image
+                    src={page.src}
+                    alt={page.alt}
+                    fill
+                    unoptimized
+                    sizes="(max-width: 768px) 100vw, 720px"
+                    className="object-contain p-4 md:p-6"
+                  />
+                  <div className="absolute inset-x-0 bottom-0 h-20 bg-[linear-gradient(180deg,transparent,rgba(255,247,251,0.9))]" />
                 </div>
               </div>
             </div>
@@ -117,9 +138,7 @@ function BookCard({
             <p className="font-serif text-xl italic text-[#8f6078]">
               Happy Birthday
             </p>
-            <p className="mt-2 text-sm text-[#8d7380]">
-              Wishing you a lovely day.
-            </p>
+            <p className="mt-2 text-sm text-[#8d7380]">{page.caption}</p>
           </div>
         </div>
       </div>
