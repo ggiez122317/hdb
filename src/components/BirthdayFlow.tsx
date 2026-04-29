@@ -482,9 +482,10 @@ export default function BirthdayFlow() {
                   >
                     <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.85),rgba(255,235,244,0.4),transparent_72%)] blur-3xl" />
                     <Image
-                      src="/bouquet.png"
-                      alt="Flower bouquet"
+                      src="https://i.pinimg.com/originals/5b/85/24/5b8524f690facef6a5fefff8a5e12481.gif"
+                      alt="Animated flower bouquet"
                       fill
+                      unoptimized
                       className="object-contain"
                     />
                   </motion.div>
