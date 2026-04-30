@@ -217,7 +217,10 @@ export default function BirthdayFlow() {
   }
 
   return (
-    <div className="relative z-10 min-h-screen overflow-hidden">
+    <div 
+      className="relative z-10 min-h-screen overflow-hidden"
+      onPointerDown={audioBlocked ? startGreetingAudio : undefined}
+    >
       <AnimatePresence mode="wait">
         {scene === "countdown" ? (
           <motion.section
