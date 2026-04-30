@@ -37,13 +37,13 @@ const pages = [
   },
 ];
 
-const confettiBits = Array.from({ length: 24 }, (_, index) => ({
+const confettiBits = Array.from({ length: 14 }, (_, index) => ({
   id: index,
-  left: `${(index * 11) % 100}%`,
-  delay: (index % 6) * 0.35,
-  duration: 3.8 + (index % 5) * 0.4,
-  drift: ((index * 17) % 80) - 40,
-  rotate: 120 + (index % 6) * 50,
+  left: `${(index * 17) % 100}%`,
+  delay: (index % 5) * 0.45,
+  duration: 4.2 + (index % 5) * 0.5,
+  drift: ((index * 13) % 60) - 30,
+  rotate: 90 + (index % 4) * 60,
   color:
     index % 4 === 0
       ? "#f7b7cd"
@@ -397,7 +397,7 @@ export default function BirthdayFlow() {
                   repeat: Infinity,
                   ease: "easeInOut",
                 }}
-                className={`absolute ${badge.size} rounded-full border border-[#efd4de] bg-white/78 p-2 shadow-[0_12px_26px_rgba(143,92,118,0.10)] backdrop-blur-sm`}
+                className={`absolute ${badge.size} rounded-full border border-[#efd4de] bg-white/78 p-2 shadow-[0_12px_26px_rgba(143,92,118,0.10)] md:backdrop-blur-sm [will-change:transform]`}
                 style={{
                   top: badge.top,
                   left: badge.left,
@@ -438,14 +438,14 @@ export default function BirthdayFlow() {
               </motion.div>
             ))}
 
-            <div className="absolute left-[12%] top-[18%] h-16 w-16 rounded-full bg-[#ffddea]/45 blur-3xl" />
-            <div className="absolute bottom-[18%] right-[16%] h-20 w-20 rounded-full bg-[#dceeff]/45 blur-3xl" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.26),transparent_45%)]" />
+            <div className="absolute left-[12%] top-[18%] h-16 w-16 rounded-full bg-[#ffddea]/45 blur-2xl md:blur-3xl" />
+            <div className="absolute bottom-[18%] right-[16%] h-20 w-20 rounded-full bg-[#dceeff]/45 blur-2xl md:blur-3xl" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.2),transparent_50%)]" />
 
             <div className="relative z-10 w-full max-w-5xl my-auto">
               <div className="relative rounded-[40px] border border-white/70 bg-[linear-gradient(135deg,rgba(255,255,255,0.72),rgba(255,245,249,0.88),rgba(246,241,255,0.82))] px-5 py-10 shadow-[0_28px_70px_rgba(143,92,118,0.12)] backdrop-blur-md sm:px-8 sm:py-12 md:px-10">
-                <div className="absolute -left-14 top-12 h-28 w-28 rounded-full bg-[#ffd8e8]/50 blur-3xl" />
-                <div className="absolute -right-10 bottom-12 h-32 w-32 rounded-full bg-[#dceeff]/45 blur-3xl" />
+                <div className="absolute -left-14 top-12 h-28 w-28 rounded-full bg-[#ffd8e8]/50 blur-2xl md:blur-3xl" />
+                <div className="absolute -right-10 bottom-12 h-32 w-32 rounded-full bg-[#dceeff]/45 blur-2xl md:blur-3xl" />
 
                 <div className="relative flex flex-col items-center text-center px-2">
                   <motion.span 
@@ -480,7 +480,7 @@ export default function BirthdayFlow() {
                     transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                     className="relative z-10 h-[160px] w-[160px] drop-shadow-[0_20px_40px_rgba(155,101,128,0.18)] sm:h-[220px] sm:w-[220px] md:h-[380px] md:w-[380px] md:-mr-12"
                   >
-                    <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.85),rgba(255,235,244,0.4),transparent_72%)] blur-3xl" />
+                    <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.85),rgba(255,235,244,0.4),transparent_72%)] blur-2xl md:blur-3xl" />
                     <Image
                       src="https://i.pinimg.com/originals/5b/85/24/5b8524f690facef6a5fefff8a5e12481.gif"
                       alt="Animated flower bouquet"
