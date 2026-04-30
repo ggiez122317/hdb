@@ -100,8 +100,9 @@ function BookCard({
       <div className="absolute inset-y-0 left-0 w-5 bg-[linear-gradient(to_right,rgba(132,86,113,0.15),transparent)]" />
       <div className="relative flex h-full flex-col">
         <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.3em] text-[#b77d99]">
-          <span></span>
+          <span>Happy Birthday Test</span>
           <span>
+            {pageIndex + 1} / {pages.length}
           </span>
         </div>
 
@@ -261,16 +262,19 @@ export default function BirthdayFlow() {
               animate={{ opacity: greetingStep >= 1 ? 1 : 0, y: greetingStep >= 1 ? 0 : 20 }}
               className="font-serif text-5xl font-bold tracking-[0.18em] text-[#d78bab] md:text-7xl"
             >
+              HAPPY
             </motion.h1>
             <motion.h2
               animate={{ opacity: greetingStep >= 2 ? 1 : 0, y: greetingStep >= 2 ? 0 : 20 }}
               className="mt-4 font-serif text-4xl italic text-[#a86d8d] md:text-6xl"
             >
+              Birthday
             </motion.h2>
             <motion.p
               animate={{ opacity: greetingStep >= 3 ? 1 : 0, y: greetingStep >= 3 ? 0 : 20 }}
               className="mt-5 text-2xl text-[#c597ad] md:text-4xl"
             >
+              Test
             </motion.p>
             {audioBlocked ? (
               <button
@@ -334,6 +338,7 @@ export default function BirthdayFlow() {
                 />
               </div>
               <p className="mt-4 font-serif text-3xl italic text-[#b36f92]">
+                Happy Birthday
               </p>
             </button>
           </motion.section>
@@ -350,6 +355,7 @@ export default function BirthdayFlow() {
             <div className="w-full max-w-4xl">
               <div className="mb-6 text-center">
                 <h2 className="font-serif text-4xl italic text-[#b16f90] md:text-5xl">
+                  Happy Birthday Test
                 </h2>
               </div>
 
@@ -492,6 +498,7 @@ export default function BirthdayFlow() {
                     className="mt-6 font-serif text-[2.4rem] italic leading-none tracking-tight text-[#af6f8f] sm:text-[3.6rem] md:text-[5.5rem]"
                   >
                     <span className="bg-gradient-to-r from-[#af6f8f] via-[#d487aa] to-[#af6f8f] bg-clip-text text-transparent">
+                      Happy Birthday
                     </span>
                   </motion.h2>
                   <motion.p 
