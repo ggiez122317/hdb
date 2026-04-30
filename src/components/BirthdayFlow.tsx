@@ -217,7 +217,7 @@ export default function BirthdayFlow() {
   }
 
   return (
-    <div 
+    <div
       className="relative z-10 min-h-screen overflow-hidden"
       onPointerDown={audioBlocked ? startGreetingAudio : undefined}
     >
@@ -488,14 +488,14 @@ export default function BirthdayFlow() {
                 <div className="absolute -right-10 bottom-12 h-32 w-32 rounded-full bg-[#dceeff]/45 blur-2xl md:blur-3xl" />
 
                 <div className="relative flex flex-col items-center text-center px-2">
-                  <motion.span 
+                  <motion.span
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="rounded-full border border-[#efcddd] bg-white/76 px-4 py-2 text-[10px] uppercase tracking-[0.32em] text-[#b57a96] shadow-[0_10px_22px_rgba(143,92,118,0.08)]"
                   >
                     Birthday Keepsake
                   </motion.span>
-                  <motion.h2 
+                  <motion.h2
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     className="mt-6 font-serif text-[2.4rem] italic leading-none tracking-tight text-[#af6f8f] sm:text-[3.6rem] md:text-[5.5rem]"
@@ -504,13 +504,13 @@ export default function BirthdayFlow() {
                       Happy Birthday
                     </span>
                   </motion.h2>
-                  <motion.p 
+                  <motion.p
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.2 }}
                     className="mt-5 max-w-xs text-[12px] leading-relaxed text-[#8d7380] sm:max-w-sm sm:text-base"
                   >
-                    A soft little bouquet, a dancing wish, and a page made just for your happiest day.
+                    Padayon sa pagiging maldita..jokeeee, Enjoy your dayyy bitaw oyyy
                   </motion.p>
                 </div>
 
@@ -543,22 +543,22 @@ export default function BirthdayFlow() {
                       <div className="mb-5 overflow-hidden rounded-[24px] border border-[#edd3dd] bg-white/78 p-3 shadow-inner">
                         <div className="relative aspect-[4/5] overflow-hidden rounded-[18px] border-2 border-dashed border-[#e5bfd0] bg-[linear-gradient(180deg,#fffdfd,#fff7fa)]">
                           <Image
-                            src={pages[3].src}
-                            alt={pages[3].alt}
+                            src="/bday.jpg"
+                            alt="Birthday memory"
                             fill
                             unoptimized
                             sizes="(max-width: 768px) 80vw, 400px"
-                            className="object-contain p-4"
+                            className="object-cover"
                           />
                           <div className="absolute inset-x-0 bottom-0 h-24 bg-[linear-gradient(180deg,transparent,rgba(255,247,250,0.95))]" />
                         </div>
                       </div>
                       <div className="pb-2 text-center">
                         <p className="font-serif text-3xl italic text-[#b16f90] sm:text-[2.8rem]">
-                          Keep smiling
+                          piibirtdayyy
                         </p>
                         <p className="mt-2 text-sm leading-6 text-[#8d7380]">
-                          Wishing you a lovely day filled with flowers, laughter, and sweet little surprises.
+                          gandaaaa
                         </p>
                       </div>
                       <div className="absolute -bottom-4 -right-4 h-16 w-16 rotate-12 opacity-40">
