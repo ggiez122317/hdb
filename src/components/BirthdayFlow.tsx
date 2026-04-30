@@ -38,13 +38,13 @@ const pages = [
   },
 ];
 
-const confettiBits = Array.from({ length: 14 }, (_, index) => ({
+const confettiBits = Array.from({ length: 10 }, (_, index) => ({
   id: index,
-  left: `${(index * 17) % 100}%`,
-  delay: (index % 5) * 0.45,
-  duration: 4.2 + (index % 5) * 0.5,
-  drift: ((index * 13) % 60) - 30,
-  rotate: 90 + (index % 4) * 60,
+  left: `${(index * 23) % 100}%`,
+  delay: (index % 4) * 0.4,
+  duration: 4.5 + (index % 4) * 0.6,
+  drift: ((index * 17) % 50) - 25,
+  rotate: 90 + (index % 3) * 80,
   color:
     index % 4 === 0
       ? "#f7b7cd"
@@ -56,10 +56,9 @@ const confettiBits = Array.from({ length: 14 }, (_, index) => ({
 }));
 
 const cakeBadges = [
-  { id: 1, top: "8%", left: "9%", size: "h-16 w-16 md:h-20 md:w-20", delay: 0 },
-  { id: 2, top: "18%", right: "10%", size: "h-14 w-14 md:h-18 md:w-18", delay: 0.4 },
-  { id: 3, bottom: "12%", left: "14%", size: "h-16 w-16 md:h-20 md:w-20", delay: 0.8 },
-  { id: 4, bottom: "9%", right: "12%", size: "h-14 w-14 md:h-18 md:w-18", delay: 1.2 },
+  { id: 1, top: "8%", left: "9%", size: "h-14 w-14 md:h-20 md:w-20", delay: 0 },
+  { id: 2, top: "18%", right: "10%", size: "h-12 w-12 md:h-18 md:w-18", delay: 0.4 },
+  { id: 3, bottom: "12%", left: "14%", size: "h-14 w-14 md:h-20 md:w-20", delay: 0.8 },
 ];
 
 const balloons = [
@@ -67,8 +66,6 @@ const balloons = [
   { id: 2, top: "7%", right: "7%", color: "#ffe1a7" },
   { id: 3, top: "24%", right: "15%", color: "#d5e8ff" },
   { id: 4, top: "18%", left: "18%", color: "#d9f2e8" },
-  { id: 5, top: "30%", right: "5%", color: "#f3c9ff" },
-  { id: 6, top: "6%", left: "32%", color: "#ffd9b8" },
 ];
 
 function ConfettiCanvas() {
@@ -190,10 +187,14 @@ function ConfettiCanvas() {
     const animate = () => {
       frame++;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      if (frame % 5 === 0) {
+      const isMobile = window.innerWidth < 768;
+      const maxParticles = isMobile ? 40 : 100;
+      const spawnRate = isMobile ? 8 : 5;
+
+      if (frame % spawnRate === 0) {
         const c = new Confetti(false);
         particles.push(c);
-        if (particles.length > 100) particles.shift();
+        if (particles.length > maxParticles) particles.shift();
       }
       particles.forEach((p) => {
         p.update();
@@ -261,7 +262,7 @@ function BookCard({
       <div className="absolute inset-y-0 left-0 w-8 bg-[linear-gradient(to_right,rgba(132,86,113,0.12),transparent)]" />
       <div className="relative flex h-full flex-col">
         <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.3em] text-[#b77d99]">
-          <span>Happy Birthday Test</span>
+          <span>Happy Birthday Jeann</span>
           <span>
             {pageIndex + 1} / {pages.length}
           </span>
@@ -452,7 +453,7 @@ export default function BirthdayFlow() {
               animate={{ opacity: greetingStep >= 3 ? 1 : 0, y: greetingStep >= 3 ? 0 : 20 }}
               className="mt-5 text-2xl text-[#c597ad] md:text-4xl"
             >
-              Test
+              Jeann
             </motion.p>
             {audioBlocked ? (
               <button
@@ -533,7 +534,7 @@ export default function BirthdayFlow() {
             <div className="w-full max-w-2xl">
               <div className="mb-6 text-center">
                 <h2 className="font-serif text-4xl italic text-[#b16f90] md:text-5xl">
-                  Happy Birthday Test
+                  Happy Birthday Jeann
                 </h2>
               </div>
 

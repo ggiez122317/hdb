@@ -46,11 +46,30 @@ export default function BookPageFlip({
   return (
     <div className="w-full select-none px-2">
       {/* ── Book ─────────────────────────────────────────────────────── */}
-      <div
-        className="relative mx-auto"
+      <motion.div
+        className="relative mx-auto cursor-pointer touch-none"
+        onTap={(e, info) => {
+          if (isAnim) return;
+          const rect = (e.target as HTMLElement).getBoundingClientRect();
+          const x = info.point.x - rect.left;
+          const isRight = x > rect.width / 2;
+          if (isRight && localIndex < totalPages - 1) {
+            goTo(localIndex + 1, 1);
+          } else if (!isRight && localIndex > 0) {
+            goTo(localIndex - 1, -1);
+          }
+        }}
+        onPanEnd={(e, info) => {
+          if (isAnim) return;
+          const threshold = 50;
+          if (info.offset.x < -threshold && localIndex < totalPages - 1) {
+            goTo(localIndex + 1, 1);
+          } else if (info.offset.x > threshold && localIndex > 0) {
+            goTo(localIndex - 1, -1);
+          }
+        }}
         style={{
           maxWidth: 560,
-          /* 10° tilt like the canvas sample */
           transform: "rotate(-5deg)",
           transformOrigin: "center bottom",
         }}
@@ -72,7 +91,7 @@ export default function BookPageFlip({
           className="relative flex overflow-hidden rounded-[6px_16px_16px_6px] shadow-[0_20px_60px_rgba(150,80,110,0.18)]"
           style={{ minHeight: 280 }}
         >
-          {/* ── LEFT COVER (pink, decorative) ───────────────────────── */}
+          {/* ── LEFT COVER ────────────────────────────────────────── */}
           <div
             className="relative shrink-0"
             style={{
@@ -117,9 +136,9 @@ export default function BookPageFlip({
             }}
           />
 
-          {/* ── RIGHT PAGE — animated GIF area ──────────────────────── */}
+          {/* ── RIGHT PAGE ──────────────────────────────────────────── */}
           <div className="relative flex flex-1 flex-col overflow-hidden bg-[#fffdf8]">
-            {/* Stacked pages edge (left side of right page) */}
+            {/* Stacked pages edge */}
             <div
               className="absolute inset-y-0 left-0 w-2 bg-[linear-gradient(to_right,#fde8f0,#fffdf8)]"
               style={{ boxShadow: "inset 2px 0 5px rgba(180,80,110,0.08)" }}
@@ -130,7 +149,7 @@ export default function BookPageFlip({
               {localIndex + 1} / {totalPages}
             </div>
 
-            {/* GIF display — uses <img> so GIFs actually animate */}
+            {/* GIF display */}
             <div className="relative flex-1 overflow-hidden" style={{ minHeight: 260 }}>
               <AnimatePresence mode="wait">
                 <motion.div
@@ -185,7 +204,7 @@ export default function BookPageFlip({
             }}
           />
         ))}
-      </div>
+      </motion.div>
 
       {/* ── Buttons (outside the tilted book) ──────────────────────────── */}
       <div
