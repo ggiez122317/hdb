@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Scene = "countdown" | "greeting" | "gif" | "book" | "final";
 
@@ -152,6 +152,21 @@ export default function BirthdayFlow() {
   const [greetingStep, setGreetingStep] = useState(0);
   const [pageIndex, setPageIndex] = useState(0);
   const [direction, setDirection] = useState(1);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    // Preload audio
+    audioRef.current = new Audio("/happy-birthday.mp3");
+    audioRef.current.loop = true;
+  }, []);
+
+  useEffect(() => {
+    if (scene === "greeting" && audioRef.current) {
+      audioRef.current.play().catch((err) => {
+        console.warn("Audio play blocked by browser:", err);
+      });
+    }
+  }, [scene]);
 
   useEffect(() => {
     const timers = [
