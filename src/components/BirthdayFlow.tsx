@@ -152,6 +152,7 @@ export default function BirthdayFlow() {
   const [greetingStep, setGreetingStep] = useState(0);
   const [pageIndex, setPageIndex] = useState(0);
   const [direction, setDirection] = useState(1);
+  const [audioBlocked, setAudioBlocked] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
@@ -164,9 +165,22 @@ export default function BirthdayFlow() {
     if (scene === "greeting" && audioRef.current) {
       audioRef.current.play().catch((err) => {
         console.warn("Audio play blocked by browser:", err);
+        setAudioBlocked(true);
       });
     }
   }, [scene]);
+
+  async function startGreetingAudio() {
+    if (!audioRef.current) return;
+
+    try {
+      await audioRef.current.play();
+      setAudioBlocked(false);
+    } catch (err) {
+      console.warn("Audio play blocked by browser:", err);
+      setAudioBlocked(true);
+    }
+  }
 
   useEffect(() => {
     const timers = [
@@ -243,6 +257,7 @@ export default function BirthdayFlow() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            onPointerDown={audioBlocked ? startGreetingAudio : undefined}
             className="flex min-h-screen flex-col items-center justify-center px-6 text-center"
           >
             <motion.h1
@@ -263,6 +278,15 @@ export default function BirthdayFlow() {
             >
               Test
             </motion.p>
+            {audioBlocked ? (
+              <button
+                type="button"
+                onClick={startGreetingAudio}
+                className="mt-8 rounded-full border border-[#efcddd] bg-white/80 px-5 py-3 text-xs uppercase tracking-[0.28em] text-[#b17694] shadow-[0_12px_24px_rgba(143,92,118,0.12)]"
+              >
+                Tap for music
+              </button>
+            ) : null}
           </motion.section>
         ) : null}
 
