@@ -11,29 +11,29 @@ const pages = [
     id: 1,
     src: "https://media.tenor.com/l2QU5JIn6q0AAAAi/happy-birthday.gif",
     alt: "Happy birthday sticker gif",
-    badge: "Birthday Wish",
-    caption: "A bright little birthday spark to open the card.",
+    badge: "",
+    caption: "",
   },
   {
     id: 2,
     src: "https://www.funimada.com/assets/images/cards/big/bday-501.gif",
     alt: "Birthday greeting card gif",
-    badge: "Sweet Surprise",
-    caption: "A warm birthday card moment filled with celebration.",
+    badge: "",
+    caption: "",
   },
   {
     id: 3,
     src: "https://media.tenor.com/qeXZqARw9i8AAAAm/happy-birthday-happybirthday.webp",
     alt: "Happy birthday celebration gif",
-    badge: "Party Time",
-    caption: "More birthday energy for the next page of the story.",
+    badge: "",
+    caption: "",
   },
   {
     id: 4,
     src: "https://media.tenor.com/8_1QySrL5KUAAAAM/happy-dance-birthday.gif",
     alt: "Happy birthday dancing gif",
-    badge: "Dance Break",
-    caption: "Ending the flipbook with a joyful birthday dance.",
+    badge: "",
+    caption: "",
   },
 ];
 
@@ -100,9 +100,8 @@ function BookCard({
       <div className="absolute inset-y-0 left-0 w-5 bg-[linear-gradient(to_right,rgba(132,86,113,0.15),transparent)]" />
       <div className="relative flex h-full flex-col">
         <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.3em] text-[#b77d99]">
-          <span>Happy Birthday Test</span>
+          <span></span>
           <span>
-            {pageIndex + 1} / {pages.length}
           </span>
         </div>
 
@@ -117,7 +116,6 @@ function BookCard({
                       {page.badge}
                     </span>
                     <span className="rounded-full border border-[#f1d6e1] bg-[#fff7fb]/88 px-3 py-1 text-[10px] uppercase tracking-[0.24em] text-[#ba7896]">
-                      page {page.id}
                     </span>
                   </div>
                   <Image
@@ -136,7 +134,6 @@ function BookCard({
 
           <div className="rounded-[20px] border border-[#edd3dd] bg-white/74 px-5 py-4 text-center">
             <p className="font-serif text-xl italic text-[#8f6078]">
-              Happy Birthday
             </p>
             <p className="mt-2 text-sm text-[#8d7380]">{page.caption}</p>
           </div>
@@ -264,19 +261,16 @@ export default function BirthdayFlow() {
               animate={{ opacity: greetingStep >= 1 ? 1 : 0, y: greetingStep >= 1 ? 0 : 20 }}
               className="font-serif text-5xl font-bold tracking-[0.18em] text-[#d78bab] md:text-7xl"
             >
-              HAPPY
             </motion.h1>
             <motion.h2
               animate={{ opacity: greetingStep >= 2 ? 1 : 0, y: greetingStep >= 2 ? 0 : 20 }}
               className="mt-4 font-serif text-4xl italic text-[#a86d8d] md:text-6xl"
             >
-              Birthday
             </motion.h2>
             <motion.p
               animate={{ opacity: greetingStep >= 3 ? 1 : 0, y: greetingStep >= 3 ? 0 : 20 }}
               className="mt-5 text-2xl text-[#c597ad] md:text-4xl"
             >
-              Test
             </motion.p>
             {audioBlocked ? (
               <button
@@ -340,7 +334,6 @@ export default function BirthdayFlow() {
                 />
               </div>
               <p className="mt-4 font-serif text-3xl italic text-[#b36f92]">
-                Happy Birthday
               </p>
             </button>
           </motion.section>
@@ -357,7 +350,6 @@ export default function BirthdayFlow() {
             <div className="w-full max-w-4xl">
               <div className="mb-6 text-center">
                 <h2 className="font-serif text-4xl italic text-[#b16f90] md:text-5xl">
-                  Happy Birthday Test
                 </h2>
               </div>
 
@@ -500,7 +492,6 @@ export default function BirthdayFlow() {
                     className="mt-6 font-serif text-[2.4rem] italic leading-none tracking-tight text-[#af6f8f] sm:text-[3.6rem] md:text-[5.5rem]"
                   >
                     <span className="bg-gradient-to-r from-[#af6f8f] via-[#d487aa] to-[#af6f8f] bg-clip-text text-transparent">
-                      Happy Birthday
                     </span>
                   </motion.h2>
                   <motion.p 
