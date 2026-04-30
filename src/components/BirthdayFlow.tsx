@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import BookPageFlip from "./BookPageFlip";
 
 type Scene = "countdown" | "greeting" | "gif" | "book" | "final";
 
@@ -70,6 +71,153 @@ const balloons = [
   { id: 6, top: "6%", left: "32%", color: "#ffd9b8" },
 ];
 
+function ConfettiCanvas() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animationFrameId: number;
+    let particles: Confetti[] = [];
+    let frame = 0;
+
+    const COLORS = [
+      "#FF6B9D",
+      "#FF8E53",
+      "#FFD93D",
+      "#6BCB77",
+      "#4D96FF",
+      "#C77DFF",
+      "#FF9F1C",
+      "#00B4D8",
+    ];
+
+    class Confetti {
+      x: number = 0;
+      y: number = 0;
+      type: string = "circle";
+      color: string = "";
+      size: number = 0;
+      vx: number = 0;
+      vy: number = 0;
+      rot: number = 0;
+      rotS: number = 0;
+      alpha: number = 0;
+      w: number = 0;
+      ws: number = 0;
+
+      constructor(init: boolean) {
+        this.reset(init);
+      }
+
+      reset(init: boolean) {
+        this.x = Math.random() * canvas!.width;
+        this.y = init ? Math.random() * canvas!.height : canvas!.height + 10;
+        this.type = ["circle", "star", "rect", "diamond"][
+          Math.floor(Math.random() * 4)
+        ];
+        this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+        this.size = 4 + Math.random() * 9;
+        this.vx = (Math.random() - 0.5) * 0.9;
+        this.vy = -(0.7 + Math.random() * 1.8);
+        this.rot = Math.random() * Math.PI * 2;
+        this.rotS = (Math.random() - 0.5) * 0.07;
+        this.alpha = 0.75 + Math.random() * 0.25;
+        this.w = Math.random() * Math.PI * 2;
+        this.ws = 0.02 + Math.random() * 0.03;
+      }
+
+      update() {
+        this.w += this.ws;
+        this.vx += Math.sin(this.w) * 0.02;
+        this.x += this.vx;
+        this.y += this.vy;
+        this.rot += this.rotS;
+        if (this.y < this.size) this.alpha = Math.max(0, this.y / (this.size * 5));
+        if (this.y < -20) this.reset(false);
+      }
+
+      draw() {
+        ctx!.save();
+        ctx!.globalAlpha = this.alpha;
+        ctx!.translate(this.x, this.y);
+        ctx!.rotate(this.rot);
+        ctx!.fillStyle = this.color;
+        const s = this.size;
+        if (this.type === "circle") {
+          ctx!.beginPath();
+          ctx!.arc(0, 0, s * 0.5, 0, Math.PI * 2);
+          ctx!.fill();
+        } else if (this.type === "rect") {
+          ctx!.fillRect(-s * 0.4, -s * 0.25, s * 0.8, s * 0.5);
+        } else if (this.type === "diamond") {
+          ctx!.beginPath();
+          ctx!.moveTo(0, -s * 0.55);
+          ctx!.lineTo(s * 0.38, 0);
+          ctx!.lineTo(0, s * 0.55);
+          ctx!.lineTo(-s * 0.38, 0);
+          ctx!.closePath();
+          ctx!.fill();
+        } else {
+          ctx!.beginPath();
+          for (let i = 0; i < 10; i++) {
+            const a = (i * Math.PI) / 5 - Math.PI / 2,
+              r = i % 2 === 0 ? s * 0.48 : s * 0.22;
+            i === 0
+              ? ctx!.moveTo(Math.cos(a) * r, Math.sin(a) * r)
+              : ctx!.lineTo(Math.cos(a) * r, Math.sin(a) * r);
+          }
+          ctx!.closePath();
+          ctx!.fill();
+        }
+        ctx!.restore();
+      }
+    }
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+
+    window.addEventListener("resize", resize);
+    resize();
+
+    particles = Array.from({ length: 60 }, () => new Confetti(true));
+
+    const animate = () => {
+      frame++;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (frame % 5 === 0) {
+        const c = new Confetti(false);
+        particles.push(c);
+        if (particles.length > 100) particles.shift();
+      }
+      particles.forEach((p) => {
+        p.update();
+        p.draw();
+      });
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    return () => {
+      window.removeEventListener("resize", resize);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="pointer-events-none fixed inset-0 z-0 h-full w-full opacity-50"
+    />
+  );
+}
+
 function BookCard({
   pageIndex,
   direction,
@@ -83,21 +231,34 @@ function BookCard({
     <motion.div
       key={page.id}
       initial={{
+        rotateY: direction > 0 ? 110 : -110,
         opacity: 0,
-        x: direction > 0 ? 30 : -30,
-        rotateY: direction > 0 ? -55 : 55,
+        x: direction > 0 ? 40 : -40,
+        scale: 0.94,
       }}
-      animate={{ opacity: 1, x: 0, rotateY: 0 }}
+      animate={{
+        rotateY: 0,
+        opacity: 1,
+        x: 0,
+        scale: 1,
+      }}
       exit={{
+        rotateY: direction > 0 ? -110 : 110,
         opacity: 0,
-        x: direction > 0 ? -30 : 30,
-        rotateY: direction > 0 ? 55 : -55,
+        x: direction > 0 ? -40 : 40,
+        scale: 0.94,
       }}
-      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-      style={{ transformStyle: "preserve-3d" }}
-      className="relative min-h-[420px] overflow-hidden rounded-[28px] border border-[#e9d4dd] bg-[linear-gradient(180deg,#fffdfb,#fff6f9)] p-4 shadow-[0_20px_44px_rgba(143,92,118,0.12)] md:min-h-[460px] md:p-6"
+      transition={{
+        duration: 0.85,
+        ease: [0.4, 0, 0.2, 1],
+      }}
+      style={{
+        transformStyle: "preserve-3d",
+        transformOrigin: direction > 0 ? "left center" : "right center",
+      }}
+      className="relative min-h-[420px] w-full overflow-hidden rounded-[4px_28px_28px_4px] border-l-[3px] border-[#d4b0c1] bg-[linear-gradient(90deg,#fcf4f7_0%,#fffdfb_10%,#fffdfb_100%)] p-4 shadow-[12px_20px_44px_rgba(143,92,118,0.12)] md:min-h-[460px] md:p-6"
     >
-      <div className="absolute inset-y-0 left-0 w-5 bg-[linear-gradient(to_right,rgba(132,86,113,0.15),transparent)]" />
+      <div className="absolute inset-y-0 left-0 w-8 bg-[linear-gradient(to_right,rgba(132,86,113,0.12),transparent)]" />
       <div className="relative flex h-full flex-col">
         <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.3em] text-[#b77d99]">
           <span>Happy Birthday Test</span>
@@ -203,6 +364,9 @@ export default function BirthdayFlow() {
     return () => timers.forEach((timer) => window.clearTimeout(timer));
   }, [scene]);
 
+  const [isFlipping, setIsFlipping] = useState(false);
+  const pendingIndexRef = useRef<number | null>(null);
+
   function openBook() {
     setPageIndex(0);
     setDirection(1);
@@ -210,17 +374,28 @@ export default function BirthdayFlow() {
   }
 
   function flipPage(nextDirection: number) {
+    if (isFlipping) return;
+    const next = Math.max(0, Math.min(pages.length - 1, pageIndex + nextDirection));
+    if (next === pageIndex) return;
+    pendingIndexRef.current = next;
     setDirection(nextDirection);
-    setPageIndex((current) =>
-      Math.max(0, Math.min(pages.length - 1, current + nextDirection)),
-    );
+    setIsFlipping(true);
+  }
+
+  function handleFlipDone() {
+    if (pendingIndexRef.current !== null) {
+      setPageIndex(pendingIndexRef.current);
+      pendingIndexRef.current = null;
+    }
+    setIsFlipping(false);
   }
 
   return (
-    <div
+    <div 
       className="relative z-10 min-h-screen overflow-hidden"
       onPointerDown={audioBlocked ? startGreetingAudio : undefined}
     >
+      {scene !== "countdown" && <ConfettiCanvas />}
       <AnimatePresence mode="wait">
         {scene === "countdown" ? (
           <motion.section
@@ -353,48 +528,24 @@ export default function BirthdayFlow() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="flex min-h-screen items-center justify-center px-4 py-8"
+            className="flex min-h-screen flex-col items-center justify-center px-4 py-8"
           >
-            <div className="w-full max-w-4xl">
+            <div className="w-full max-w-2xl">
               <div className="mb-6 text-center">
                 <h2 className="font-serif text-4xl italic text-[#b16f90] md:text-5xl">
                   Happy Birthday Test
                 </h2>
               </div>
 
-              <div className="mx-auto max-w-3xl [perspective:1800px]">
-                <AnimatePresence mode="wait">
-                  <BookCard pageIndex={pageIndex} direction={direction} />
-                </AnimatePresence>
-              </div>
-
-              <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-                <button
-                  type="button"
-                  onClick={() => flipPage(-1)}
-                  disabled={pageIndex === 0}
-                  className="rounded-full border border-[#eac9d8] bg-white/75 px-5 py-3 text-[11px] uppercase tracking-[0.26em] text-[#aa7791] disabled:opacity-40"
-                >
-                  Prev
-                </button>
-                <button
-                  type="button"
-                  onClick={() => flipPage(1)}
-                  disabled={pageIndex === pages.length - 1}
-                  className="rounded-full border border-[#efc3d8] bg-[linear-gradient(135deg,#f8dce8,#ffe9c9)] px-5 py-3 text-[11px] uppercase tracking-[0.26em] text-[#9b647f] disabled:opacity-40"
-                >
-                  Next
-                </button>
-                {pageIndex === pages.length - 1 ? (
-                  <button
-                    type="button"
-                    onClick={() => setScene("final")}
-                    className="rounded-full border border-[#efbdd3] bg-[#f8d4e4] px-5 py-3 text-[11px] uppercase tracking-[0.26em] text-[#9a5f7e]"
-                  >
-                    Open
-                  </button>
-                ) : null}
-              </div>
+              <BookPageFlip
+                pages={pages}
+                pageIndex={pageIndex}
+                totalPages={pages.length}
+                direction={direction}
+                flipping={isFlipping}
+                onAnimationDone={handleFlipDone}
+                onOpenFinal={() => setScene("final")}
+              />
             </div>
           </motion.section>
         ) : null}
@@ -522,8 +673,8 @@ export default function BirthdayFlow() {
                   >
                     <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.85),rgba(255,235,244,0.4),transparent_72%)] blur-2xl md:blur-3xl" />
                     <Image
-                      src="https://i.pinimg.com/originals/5b/85/24/5b8524f690facef6a5fefff8a5e12481.gif"
-                      alt="Animated flower bouquet"
+                      src="https://media.tenor.com/8_1QySrL5KUAAAAM/happy-dance-birthday.gif"
+                      alt="Dancing panda with cake"
                       fill
                       unoptimized
                       className="object-contain"
@@ -558,7 +709,7 @@ export default function BirthdayFlow() {
                         <p className="font-serif text-3xl italic text-[#b16f90] sm:text-[2.8rem]">
                           piibirtdayyy
                         </p>
-                        <p className="mt-2 text-sm leading-6 text-[#8d7380]">
+                        <p className="mt-2 text-[6px] leading-6 text-[#8d7380]">
                           gandaaaa
                         </p>
                       </div>
