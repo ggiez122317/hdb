@@ -548,8 +548,9 @@ export default function BirthdayFlow() {
                             fill
                             unoptimized
                             sizes="(max-width: 768px) 80vw, 400px"
-                            className="object-cover"
+                            className="object-cover opacity-95"
                           />
+                          <div className="absolute inset-0 bg-black/10" />
                           <div className="absolute inset-x-0 bottom-0 h-24 bg-[linear-gradient(180deg,transparent,rgba(255,247,250,0.95))]" />
                         </div>
                       </div>
